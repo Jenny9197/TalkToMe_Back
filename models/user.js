@@ -43,12 +43,8 @@ module.exports = class User extends import("sequelize").Sequelize.Model {
   }
   static associate(db) {
     db.User.hasMany(db.Comment, {
-      foreignKey: "user_id",
-      sourceKey: "user_id",
-    });
-    db.User.hasMany(db.Like, {
-      foreignKey: "user_id",
-      sourceKey: "user_id",
+      foreignKey: "userId",
+      sourceKey: "userId",
     });
   }
 };
