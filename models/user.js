@@ -19,10 +19,6 @@ module.exports = class User extends Sequelize.Model {
                     allowNull: false,
                     defaultValue: '임시',
                 },
-                selectDesc: {
-                    type: Sequelize.STRING,
-                    allowNull: false,
-                },
                 refresh_token: {
                     type: Sequelize.STRING,
                 },

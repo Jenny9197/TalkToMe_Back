@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TalkToMe-hanghae99/TalkToMe_Back#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
@@ -26,9 +27,15 @@
     "express-session": "^1.17.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
+    "nunjucks": "^3.2.3",
     "passport": "^0.5.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-kakao": "^1.0.1",
     "sequelize": "^6.12.0-beta.1",
     "sequelize-cli": "^6.3.0"
+  },
+  "devDependencies": {
+    "chokidar": "^3.5.2"
   }
 }

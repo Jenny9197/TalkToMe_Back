@@ -6,9 +6,11 @@ const boardRouter = require('./board');
 const commentRouter = require('./comment');
 const selectRouter = require('./select');
 
+
 router.use('/user', [userRouter]);
 router.use('/board', [boardRouter]);
 router.use('/comment', [commentRouter]);
 router.use('/select', [selectRouter]);
+
 
 module.exports = router;
