@@ -1,5 +1,4 @@
 const express = require('express'); // express를 쓴다
-const cookieParser = require('cookie-parser');
 const path = require('path');
 const session = require("express-session");
 const nunjucks = require("nunjucks");
@@ -7,12 +6,16 @@ const dotenv = require('dotenv');
 const { sequelize } = require('./models');
 const passport = require("passport");
 const passportConfig = require("./passport");
+const requestIp = require('request-ip');
 
 dotenv.config();
 
 const app = express();
 passportConfig();
 app.set('port', process.env.PORT || 3000);
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.set("view engine", "html");
 nunjucks.configure("views", {
@@ -23,7 +26,7 @@ nunjucks.configure("views", {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.use(
   session({
     resave: false,
