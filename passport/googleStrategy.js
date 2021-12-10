@@ -16,6 +16,7 @@ module.exports = () => {
     //     });
     //   }
     async (accessToken, refreshToken, profile, done) => {
+        console.log(accessToken, refreshToken);
         console.log("google profile", profile);
         try {
           const exUser = await User.findOne({
