@@ -8,9 +8,10 @@ const { isLoggedIn, isNotLoggedIn } = require("../middlewares/middlewares")
 // 고민작성페이지
 router.post('/write', isLoggedIn, boardController.postCreate);
 // 고민상세페이지 - 게시글 상세 조회
-//router.get('/:boardId', boardCtrl.posting.postRead);   
+router.get('/:boardId', boardController.postView);   
 // 고민상세페이지 - 게시글 좋아요, 취소
 //router.post('/:boardId/like', boardCtrl.posting.postLike);
+
 
 const commentRouter = require('./comment');
 
