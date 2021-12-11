@@ -7,10 +7,10 @@ router.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 })
-router.get('/', isLoggedIn, selectControllers.getSelects) //게시글 전체 조회
+router.get('/', selectControllers.getSelects) //게시글 전체 조회
 router.post('/write', isLoggedIn, selectControllers.writeSelect); //게시글 작성
 router.get('/:selectId', selectControllers.getSelect); //게시글 상세 조회
-router.post('/', selectControllers.doSelect); //투표
+router.post('/:selectId', isLoggedIn, selectControllers.doSelect); //투표
 
 
 module.exports = router;
