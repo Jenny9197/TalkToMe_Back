@@ -1,6 +1,7 @@
 exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
-        res.locals.user.userId = req.user.dataValues.userId
+        console.log(req.user.dataValues.userId);
+        res.locals.user = req.user.dataValues.userId
         next();
     } else {
         console.log(req)

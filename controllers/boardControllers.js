@@ -3,21 +3,21 @@ const { Board, User } = require("../models")
 
 const postCreate =  async (req, res) => {
     try {
-        const userId = res.locals.user.userId;
-        const { boardId, boardTitle, boardContent } = req.body;
+        const userId = res.locals.user;
+        const { boardTitle, boardContent } = req.body;
         
-        const post = await User.findByPk(userId);
+        //const post = await User.findByPk(userId);
         const date = new Date();
 
         const postBox = await Board.create({
-            boardId, 
             boardTitle,
-            boardContent,
+            boardDesc:boardContent,
+            userId
         });
 
         message = "게시물 작성에 성공했습니다.";
         return res.status(200).send({
-            post,
+            //post,
             postBox,
             message,
             date,
