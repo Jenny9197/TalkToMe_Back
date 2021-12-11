@@ -17,6 +17,21 @@ app.set('port', process.env.PORT || 3000);
 const cookieParser = require('cookie-parser');
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+const cors = require('cors');
+let colsOptions = {
+  origin: [
+    'http://localhost:3000', // 접근 권한을 부여하는 도메
+    // 'http://fungap.shop',
+    'https://localhost:3000',
+    // 'https://fungap.shop',
+  ],
+  credentials: true,
+  // exposedHeaders: [Set - Cookie],
+  methods: ['POST', 'PUT', 'GET', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
+  optionsSuccessStatus: 200, 
+};
+app.use(cors(colsOptions));
+
 app.set("view engine", "html");
 nunjucks.configure("views", {
   express: app,

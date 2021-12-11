@@ -42,6 +42,10 @@ module.exports = class Select extends Sequelize.Model {
                     type: Sequelize.STRING,
                     allowNull: true,
                 },
+                endDate: {
+                    type: Sequelize.DATE,
+                    allowNull: false,
+                },
                 selectViewCount: {
                     type: Sequelize.INTEGER,
                     allowNull: false,

@@ -11,7 +11,7 @@ const getSelects = async (req, res) => {
     } else {
       sort = 'createdAt';
     }
-    const query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, count(c.selectId) as participationCount
+    const query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, s.endDate,count(c.selectId) as participationCount
     FROM selects AS s
     left OUTER JOIN selectCounts AS c
     ON s.selectId = c.selectId
@@ -32,7 +32,7 @@ const getSelects = async (req, res) => {
   }
 };
 class SelectInfo {
-  constructor(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5) {
+  constructor(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate) {
     this.userId = userId;
     this.selectTitle = selectTitle;
     this.selectDesc = selectDesc;
@@ -41,13 +41,14 @@ class SelectInfo {
     this.option3 = option3;
     this.option4 = option4;
     this.option5 = option5;
+    this.endDate = endDate;
   }
 }
 const writeSelect = async (req, res) => {
   try {
     const userId = res.locals.user.userId;
-    const { selectTitle, selectDesc, option1, option2, option3, option4, option5 } = req.body;
-    const selectInfo = new SelectInfo(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5);
+    const { selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate } = req.body;
+    const selectInfo = new SelectInfo(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate);
     await Select.create(selectInfo);
     
     res.status(200).json({ result: 'success', selectInfo})
@@ -75,7 +76,7 @@ const getSelect = async (req, res) => {
       await Select.increment({ selectViewCount: +1 }, { where: { selectId } });
     }
     
-    const query = `SELECT t1.selectId, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(t2.optionNum, t2.count))as optionCount
+    const query = `SELECT t1.selectId, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
     from
     (SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
     FROM selects AS s
@@ -120,7 +121,7 @@ const doSelect = async (req, res) => {
     const { selectId } = req.params;
     const { optionNum } = req.body;
     
-    const exUser = await SelectCount.findOne({where: {userId: userId}})
+    const exUser = await SelectCount.findOne({where: {userId: userId, selectId: selectId}})
 
     if (exUser) {
       await SelectCount.update({optionNum: optionNum},{where: {userId: userId, selectId: selectId} })
