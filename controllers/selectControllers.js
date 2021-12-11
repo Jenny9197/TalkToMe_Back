@@ -3,19 +3,20 @@ const { User, Select, SelectCount, Sequelize,
 
 const getSelects = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
-    const { sort } = req.query;
+    // const userId = res.locals.user.userId;
+    let { sort } = req.query;
+    console.log(sort)
     if(sort == 'viewCount') {
-      let sorting = 'selectViewCount'
+      sort = 'selectViewCount';
     } else {
-      let sorting = 'createdAt'
+      sort = 'createdAt';
     }
     const query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, count(c.selectId) as participationCount
     FROM selects AS s
     left OUTER JOIN selectCounts AS c
     ON s.selectId = c.selectId
     GROUP BY s.selectId
-    ORDER BY s.${sorting} DESC`
+    ORDER BY s.${sort} DESC`
     
     const selectsList = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
