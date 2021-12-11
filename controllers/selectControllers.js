@@ -4,13 +4,18 @@ const { User, Select, SelectCount, Sequelize,
 const getSelects = async (req, res) => {
   try {
     const userId = res.locals.user.userId;
-    
+    const { sort } = req.query;
+    if(sort == 'viewCount') {
+      let sorting = 'selectViewCount'
+    } else {
+      let sorting = 'createdAt'
+    }
     const query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, count(c.selectId) as participationCount
     FROM selects AS s
     left OUTER JOIN selectCounts AS c
     ON s.selectId = c.selectId
     GROUP BY s.selectId
-    ORDER BY s.createdAt DESC`
+    ORDER BY s.${sorting} DESC`
     
     const selectsList = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
@@ -44,7 +49,7 @@ const writeSelect = async (req, res) => {
     const selectInfo = new SelectInfo(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5);
     await Select.create(selectInfo);
     
-    res.status(200).json({ result: 'success', userId})
+    res.status(200).json({ result: 'success', selectInfo})
   } catch (error) {
     console.error(error);
     res.status(400).json(() => {
