@@ -4,7 +4,7 @@ const { kakaoUser } = require('../middlewares/kakaoUser');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares/middlewares');
-const User = require('../models/user');
+const { userController } = require('../controllers')
 
 router.get('/logout', isLoggedIn, (req, res) => {
   req.logout();
@@ -14,9 +14,7 @@ router.get('/logout', isLoggedIn, (req, res) => {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-  res.json({ result: '로그인 성공' });
-});
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), userController.googleCallback);
 
 // router.post('/user/signin/kakao', kakaoUser, userController.auth);
 

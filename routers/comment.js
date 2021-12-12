@@ -1,14 +1,15 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const { commentController } = require('../controllers');
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares/middlewares");
+const logInOnly =require('../middlewares/passportMidlewares')
 
 router.get('/', commentController.getComment);
 
-router.post('/', isLoggedIn, commentController.writeComment);
+router.post('/', logInOnly, commentController.writeComment);
 
-router.delete('/:comment_id', isLoggedIn, commentController.deleteComment);
+router.delete('/:commentId', logInOnly, commentController.deleteComment);
 
-router.patch('/:comment_id', isLoggedIn, commentController.editComment);
+router.patch('/:commentId', logInOnly, commentController.editComment);
 
 module.exports = router;

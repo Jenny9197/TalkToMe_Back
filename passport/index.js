@@ -2,6 +2,10 @@ const passport = require("passport");
 // const google = require('passport-google-oauth2');
 const google = require('./googleStrategy')
 const User = require("../models/user");
+const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
+const { jwt } = require("./jwtStrategy");
+
+
 
 module.exports = () => {
   passport.serializeUser((user, done) => {
@@ -18,6 +22,7 @@ module.exports = () => {
       .catch((err) => done(err));
   });
   google();
+  jwt();
   // local();
   // kakao();
 };

@@ -4,6 +4,6 @@ const commentRouter = require('./comment');
 
 router.get('/');
 
-router.use('/:boardId/comment', [commentRouter]);
+router.use('/:boardId/comment', commentRouter);
 
 module.exports = router;
