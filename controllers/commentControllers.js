@@ -4,6 +4,9 @@ const { Comment } = require('../models');
 const getComment = async (req, res) => {
   try {
     const userId = res.locals.user;
+    const { boardId } = req.params;
+    const commentList = await Comment.findAll({ where: {boardId: boardId}});
+    res.status(200).json({ result: 'success', commentList})
   } catch {
     console.error(error);
     res.status(400).json({
