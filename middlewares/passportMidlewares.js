@@ -3,6 +3,7 @@ const passport = require("passport");
 
 module.exports = function logInOnly(req, res, next) {
   try {
+    console.log("어디가 문제야");
     passport.authenticate("jwt", (passportError, user, info) => {
       console.log('여기구나')
       if (passportError) {
