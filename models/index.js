@@ -7,6 +7,7 @@ const Board = require('./board');
 const Comment = require('./comment');
 const Select = require('./select');
 const SelectCount = require('./selectCount');
+const BoardLike = require('./boardlike');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -21,17 +22,20 @@ db.Board = Board;
 db.Comment = Comment;
 db.Select = Select;
 db.SelectCount = SelectCount;
+db.BoardLike = BoardLike;
 
 User.init(sequelize);
 Board.init(sequelize);
 Comment.init(sequelize);
 Select.init(sequelize);
 SelectCount.init(sequelize);
+BoardLike.init(sequelize);
 
 User.associate(db);
 Board.associate(db);
 Comment.associate(db);
 Select.associate(db);
 SelectCount.associate(db);
+BoardLike.associate(db);
 
 module.exports = db;

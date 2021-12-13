@@ -1,4 +1,4 @@
-const { Board, User } = require("../models")
+const { Board, BoardLike, User } = require("../models")
 //const { Sequelize } = require("../models");
 
 //고민 작성 페이지 - 게시글 작성
@@ -52,18 +52,21 @@ const postView = async (req, res) => {
 }
 
 //게시글 좋아요/취소
-const postOrLike = async (res, req) => {
+const postOrLike = async (req, res) => {
     try {
-        const userId = res.locals.user;
+        //console.log(res.locals);
         const { boardId } = req.params;
+        const userId = res.locals.user;
         
-        const postLike = await Board.findOne({
-            where: { postId, userId, boardId },
+
+        
+        const postLike = await BoardLike.findOne({
+            where: { userId, boardId },
         })
 
         if(!postLike) {
             const date = new Date();
-            await Board.create({
+            await BoardLike.create({
                 postId, userId, boardId
             })
 
@@ -71,10 +74,11 @@ const postOrLike = async (res, req) => {
             return res.status(200).send({
                 isLiked : true,
                 message,
+                date,
             })
         } else {
-            await Board.destroy({
-                where: { postId, commentId, userId },
+            await BoardLike.destroy({
+                where: { commentId, userId },
             });
 
             message = "게시물 좋아요 취소";
@@ -85,7 +89,7 @@ const postOrLike = async (res, req) => {
         }
     } catch (error) {
         console.log(error);
-        message: "관리자에게 문의해주세요";
+        message = "관리자에게 문의해주세요";
         return res.status(500).send({ message });
     }
 }
