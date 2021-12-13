@@ -7,7 +7,7 @@ const Board = require('./board');
 const Comment = require('./comment');
 const Select = require('./select');
 const SelectCount = require('./selectCount');
-const BoardLike = require('./boardlike');
+const BoardLike = require('./boardLike');
 
 const db = {};
 const sequelize = new Sequelize(

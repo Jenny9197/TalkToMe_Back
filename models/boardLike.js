@@ -10,11 +10,11 @@ module.exports = class BoardLike extends Sequelize.Model {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        boardId: {
-            allowNull: false,
-            type: Sequelize.INTEGER,
-        },
         userId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        boardId: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
@@ -23,16 +23,17 @@ module.exports = class BoardLike extends Sequelize.Model {
         sequelize,
         timestamps: true,
         modelName: 'BoardLike',
-        tableName: 'boards',
+        tableName: 'boardLikes',
         charset: 'utf8',
         collate: 'utf8_general_ci',
       }
     );
   }
   static associate(db) {
-    db.BoardLike.hasMany(db.Board, {
+    db.BoardLike.belongsTo(db.Board, {
       foreignKey: 'boardId',
       sourceKey: 'boardId',
+      onDelete: "CASCADE",
     });
   }
 };

@@ -12,7 +12,9 @@ router.get('/logout', isLoggedIn, (req, res) => {
   res.redirect('/');
 });
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+  console.log(req,'너 어디냐?');
+});
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), userController.googleCallback);
 
