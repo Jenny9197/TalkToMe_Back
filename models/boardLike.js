@@ -30,10 +30,15 @@ module.exports = class BoardLike extends Sequelize.Model {
     );
   }
   static associate(db) {
+    db.BoardLike.belongsTo(db.User, {
+      foreignKey: 'userId',
+      sourceKey: 'userId',
+      onDelete: 'CASCADE',
+    });
     db.BoardLike.belongsTo(db.Board, {
       foreignKey: 'boardId',
       sourceKey: 'boardId',
-      onDelete: "CASCADE",
+      onDelete: 'CASCADE',
     });
   }
 };

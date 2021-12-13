@@ -75,7 +75,7 @@ app.use((err, req, res, next) => {
 // const UserRouter = require("./routers/user");
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log('데이터베이스 연결 성공');
   })
