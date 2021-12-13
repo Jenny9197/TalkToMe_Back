@@ -54,31 +54,27 @@ const postView = async (req, res) => {
 //게시글 좋아요/취소
 const postOrLike = async (req, res) => {
     try {
-        //console.log(res.locals);
+       
         const { boardId } = req.params;
         const userId = res.locals.user;
-        
+        console.log(boardId, userId);
 
-        
         const postLike = await BoardLike.findOne({
             where: { userId, boardId },
         })
-
         if(!postLike) {
-            const date = new Date();
             await BoardLike.create({
-                postId, userId, boardId
+                userId, boardId
             })
-
             message = "게시글 좋아요.";
             return res.status(200).send({
                 isLiked : true,
                 message,
-                date,
             })
         } else {
+            console.log("차카파");
             await BoardLike.destroy({
-                where: { commentId, userId },
+                where: { userId, boardId },
             });
 
             message = "게시물 좋아요 취소";
@@ -88,6 +84,7 @@ const postOrLike = async (req, res) => {
             })
         }
     } catch (error) {
+        onsole.log("넘어오라구!");
         console.log(error);
         message = "관리자에게 문의해주세요";
         return res.status(500).send({ message });
