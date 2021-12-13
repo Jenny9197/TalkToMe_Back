@@ -63,10 +63,10 @@ const writeSelect = async (req, res) => {
 
 const getSelect = async (req, res) => {
   try {
-    // const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { selectId } = req.params;
-    console.log(selectId)
-    console.log(req.cookie)
+    console.log(userId)
+    
     console.log('여기',req.headers.cookie);
     if (req.cookies['s' + selectId] == undefined) {
       res.cookie('s' + selectId, getUserIP(req), {
@@ -76,7 +76,7 @@ const getSelect = async (req, res) => {
       await Select.increment({ selectViewCount: +1 }, { where: { selectId } });
     }
     
-    const query = `SELECT t1.selectId, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
+    const query = `SELECT t1.selectId, selectState, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
     from
     (SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
     FROM selects AS s
@@ -86,8 +86,11 @@ const getSelect = async (req, res) => {
     GROUP BY s.selectId
     ORDER BY s.createdAt DESC) as t1
     left outer join
-    (SELECT s.selectId, c.optionNum, count(c.optionNum) as count
-      
+    (SELECT s.selectId, c.optionNum, count(c.optionNum) as count,
+      case c.userId
+  when ${userId} then c.optionNum
+  else 'false'
+  end as selectState
       FROM selectCounts AS c
       left OUTER JOIN selects AS s
       ON c.selectId = s.selectId
