@@ -46,7 +46,7 @@ class SelectInfo {
 }
 const writeSelect = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate } = req.body;
     const selectInfo = new SelectInfo(userId, selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate);
     await Select.create(selectInfo);
@@ -117,7 +117,7 @@ function getUserIP(req) {
 
 const doSelect = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { selectId } = req.params;
     const { optionNum } = req.body;
     

@@ -1,10 +1,12 @@
 const { Comment } = require('../models');
-const { findAll } = require('../models/user');
 
 //댓글조회
 const getComment = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
+    const { boardId } = req.params;
+    const commentList = await Comment.findAll({ where: {boardId: boardId}});
+    res.status(200).json({ result: 'success', commentList})
   } catch {
     console.error(error);
     res.status(400).json({
@@ -16,25 +18,28 @@ const getComment = async (req, res) => {
 //댓글등록
 const writeComment = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { boardId } = req.params;
     const { comment } = req.body;
-
+    console.log(boardId);
+    console.log(userId);
+    console.log(comment);
     if (!comment) {
       console.log('커멘트 없음');
       res.status(400).json({ result: 'fail', errormessage: '내용입력하세요' });
       return;
     }
-
+    
     await Comment.create({
+      boardId: boardId,
       userId: userId,
       boardId: boardId,
       comment: comment,
     });
 
-    const comments = await findAll({ where: {boarId: boardId}});
-    
-    res.status(200).json({ result: 'success', comments });
+    // const comments = await Comment.findAll({ where: { boarId: `${boardId}` } });
+
+    res.status(200).json({ result: 'success' });
   } catch (error) {
     console.error(error);
     res.status(400).json({
@@ -46,7 +51,7 @@ const writeComment = async (req, res) => {
 //댓글삭제
 const deleteComment = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { boardId, commentId } = req.params;
     const exComment = await Comment.findOne({
       where: {
@@ -63,7 +68,7 @@ const deleteComment = async (req, res) => {
         result: 'false',
         msg: '삭제할수 없는 comment입니다.',
       });
-      return
+      return;
     }
   } catch (error) {
     console.error(error);
@@ -76,10 +81,10 @@ const deleteComment = async (req, res) => {
 //댓글수정
 const editComment = async (req, res) => {
   try {
-    const userId = res.locals.user.userId;
+    const userId = res.locals.user;
     const { boardId, commentId } = req.params;
     const { comment } = req.body;
-    
+
     const exComment = await Comment.findOne({
       where: {
         boardId: boardId,

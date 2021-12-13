@@ -16,6 +16,6 @@ router.post('/:boardId/like', boardController.postOrLike);
 const commentRouter = require('./comment');
 
 
-router.use('/:boardId/comment', [commentRouter]);
+router.use('/:boardId/comment', commentRouter);
 
 module.exports = router;
