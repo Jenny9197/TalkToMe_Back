@@ -10,7 +10,7 @@ router.post('/write', isLoggedIn, boardController.postCreate);
 // 고민상세페이지 - 게시글 상세 조회
 router.get('/:boardId', boardController.postView);   
 // 고민상세페이지 - 게시글 좋아요, 취소
-//router.post('/:boardId/like', boardCtrl.posting.postLike);
+router.post('/:boardId/like', boardController.postOrLike);
 
 
 const commentRouter = require('./comment');
