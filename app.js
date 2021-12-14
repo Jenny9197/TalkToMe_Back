@@ -12,7 +12,7 @@ dotenv.config();
 
 const app = express();
 passportConfig();
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser(process.env.COOKIE_SECRET));
