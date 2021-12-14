@@ -11,6 +11,8 @@ const logInOnly =require('../middlewares/passportMidlewares')
 router.get('/', selectControllers.getSelects) //게시글 전체 조회
 router.post('/write', logInOnly, selectControllers.writeSelect); //게시글 작성
 router.get('/:selectId', logInOnly,selectControllers.getSelect); //게시글 상세 조회
+router.patch('/:selectId', logInOnly, selectControllers.editSelect); //게시글 수정
+router.delete('/:selectId', logInOnly, selectControllers.deleteSelect); //게시글 삭제
 router.post('/:selectId', logInOnly, selectControllers.doSelect); //투표
 
 
