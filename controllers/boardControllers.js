@@ -54,10 +54,9 @@ const postView = async (req, res) => {
 //게시글 좋아요/취소
 const postOrLike = async (req, res) => {
     try {
-       
         const { boardId } = req.params;
         const userId = res.locals.user;
-        console.log(boardId, userId);
+        //console.log(boardId, userId);
 
         const postLike = await BoardLike.findOne({
             where: { userId, boardId },
@@ -89,5 +88,21 @@ const postOrLike = async (req, res) => {
     }
 }
 
+//게시물 메인 페이지 조회파트
+// const postMainView = async (req, res) => {
+//     try {
+//         const userId = res.locals.user;
+//         const postMainViewList = await Board.findAll{
+//             where : { }
+//         }
+//         const { boardId, boardTitle, boardViewCount } = req.body;
 
-module.exports = { postCreate, postView, postOrLike };
+//     } catch (error) {
+//         console.log(error);
+//         message = "게시글 목록 불러오는데 실패했습니다";
+//         return res.status(400).send({ message });
+//     }
+// }
+
+
+module.exports = { postCreate, postView, postOrLike, postMainView };

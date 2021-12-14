@@ -12,7 +12,8 @@ router.post('/write', logInOnly, boardController.postCreate);
 router.get('/:boardId', boardController.postView);   
 // 고민상세페이지 - 게시글 좋아요, 취소
 router.post('/:boardId/like', logInOnly, boardController.postOrLike);
-
+// 고민게시글 목록 조회 - 메인페이지
+router.get('/', boardController.postMainView);
 
 const commentRouter = require('./comment');
 
