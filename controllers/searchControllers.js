@@ -13,9 +13,12 @@ const homeSearchFunc = async (req, res) => {
         WHERE MATCH (boardTitle,boardDesc) AGAINST ('${keywords}' IN NATURAL LANGUAGE MODE)
         GROUP BY b.boardId
         ORDER BY b.createdAt DESC`
+        const searchList = await sequelize.query(query, {
+            type: Sequelize.QueryTypes.SELECT,
+        });
+        res.json({ result: 'success', searchList });
         
       } else if (group == 'select') {
-          console.log('여기')
         let query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, s.endDate,count(c.selectId) as participationCount
         FROM selects AS s
         left OUTER JOIN selectCounts AS c
@@ -23,16 +26,16 @@ const homeSearchFunc = async (req, res) => {
         WHERE MATCH (selectTitle,selectDesc) AGAINST ('${keywords}' IN NATURAL LANGUAGE MODE)
         GROUP BY s.selectId
         ORDER BY s.createdAt DESC`
-        return
+        
+        const searchList = await sequelize.query(query, {
+            type: Sequelize.QueryTypes.SELECT,
+        });
+        res.json({ result: 'success', searchList });
       } else {
         res.json({ result: 'fail', msg: '잘못된 요청입니다.'})
       }
-      console.log(query)
-
-      const searchList = await sequelize.query(query, {
-        type: Sequelize.QueryTypes.SELECT,
-      });
-    res.json({ result: 'success', searchList });
+      
+    
   } catch (err) {
     console.log(err)
     res.status(400).send({
