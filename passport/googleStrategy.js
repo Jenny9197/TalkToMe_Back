@@ -8,7 +8,7 @@ module.exports = () => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:3000/user/google/callback',
+        callbackURL: 'http://ozam.shop/user/google/callback',
       },
     //   function (accessToken, refreshToken, profile, cb) {
     //     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -16,8 +16,6 @@ module.exports = () => {
     //     });
     //   }
     async (accessToken, refreshToken, profile, done) => {
-        console.log(accessToken, refreshToken);
-        console.log("google profile", profile);
         try {
           const exUser = await User.findOne({
             where: { snsId: profile.id, provider: "google" },
