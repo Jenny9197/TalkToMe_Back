@@ -141,9 +141,64 @@ const doSelect = async (req, res) => {
   }
 };
 
+const editSelect = async (req, res) => {
+  try {
+    const userId = res.locals.user;
+    const { selectId } = req.params;
+    const { selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate } = req.body;
+    const exSelect = await Select.findOne({where: { selectId: selectId, userId: userId }})
+    if (exSelect) {
+      await Select.update(
+        { selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate },
+        { where: { selectId } }
+      );
+      res.status(200).json({ result: 'success', msg: '수정완료'})
+      return;
+    } else {
+      res.status(200).json({ result: 'fail', msg: '수정할 수 없는 게시물 입니다.'})
+      return;
+    }
+    
+
+    res.json({ result: 'success' });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      msg: '게시글 수정에 실패했습니다.',
+    });
+  }
+};
+
+const deleteSelect = async (req, res) => {
+  try {
+    const userId = res.locals.user;
+    const { selectId } = req.params;
+
+    const exSelect = await Select.findOne({where: { selectId: selectId, userId: userId }})
+    if (exSelect) {
+      await Select.destroy({ where: {selectId:selectId} });
+      res.status(200).json({ result: 'success' });
+      return;
+    } else {
+      res.status(200).json({ result: 'fail', msg: '삭제할 수 없는 게시물 입니다.'});
+      return;
+    }
+    
+
+    res.json({ result: 'success' });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      msg: '게시글 삭제에 실패했습니다.',
+    });
+  }
+};
+
 module.exports = {
   getSelects,
   writeSelect,
   getSelect,
   doSelect,
+  editSelect,
+  deleteSelect,
 };
