@@ -152,10 +152,10 @@ const editSelect = async (req, res) => {
         { selectTitle, selectDesc, option1, option2, option3, option4, option5, endDate },
         { where: { selectId } }
       );
-      res.json({ result: 'success', msg: '수정완료'})
+      res.status(200).json({ result: 'success', msg: '수정완료'})
       return;
     } else {
-      res.json({ result: 'fail', msg: '수정할 수 없는 게시물 입니다.'})
+      res.status(200).json({ result: 'fail', msg: '수정할 수 없는 게시물 입니다.'})
       return;
     }
     
@@ -177,10 +177,10 @@ const deleteSelect = async (req, res) => {
     const exSelect = await Select.findOne({where: { selectId: selectId, userId: userId }})
     if (exSelect) {
       await Select.destroy({ where: {selectId:selectId} });
-      res.json({ result: 'success' });
+      res.status(200).json({ result: 'success' });
       return;
     } else {
-      res.json({ result: 'fail', msg: '삭제할 수 없는 게시물 입니다.'});
+      res.status(200).json({ result: 'fail', msg: '삭제할 수 없는 게시물 입니다.'});
       return;
     }
     
