@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { kakaoUser } = require('../middlewares/kakaoUser');
+//const { kakaoUser } = require('../middlewares/kakaoUser');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares/middlewares');
