@@ -72,7 +72,6 @@ const postOrLike = async (req, res) => {
                 message,
             })
         } else {
-            console.log("차카파");
             await BoardLike.destroy({
                 where: { userId, boardId },
             });
@@ -84,7 +83,6 @@ const postOrLike = async (req, res) => {
             })
         }
     } catch (error) {
-        onsole.log("넘어오라구!");
         console.log(error);
         message = "관리자에게 문의해주세요";
         return res.status(500).send({ message });
