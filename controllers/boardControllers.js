@@ -1,5 +1,5 @@
 const { Board, BoardLike, User, Comment } = require("../models")
-//const { Sequelize } = require("../models");
+const { sequelize } = require("../models");
 
 //고민 작성 페이지 - 게시글 작성
 const postCreate =  async (req, res) => {
@@ -11,7 +11,7 @@ const postCreate =  async (req, res) => {
 
         const postBox = await Board.create({
             boardTitle,
-            boardDesc:boardContent,
+            boardDesc,
             userId
         });
 
@@ -35,36 +35,11 @@ const postCreate =  async (req, res) => {
 const postView = async (req, res) => {
     try {
         const userId = res.locals.user;
-        const { boardId }= req.params; 
-        const postViewList = await Board.findOne({
-            where: { boardId:boardId }
-        }); //postViewList =  Board 테이블에서 boardId로 찾은 게시물
-        const postViewCount = postViewList.boardViewCount + 1; // 해당 게시물의 조회수 +1
-        await Board.update({
-            boardViewCount : postViewCount
-        },
-        {
-            where: {
-                // boardViewCount:postViewCount
-                boardId:boardId // boardId '로'!!!!! 찾은 게시물의 boardViewCOunt를 postViewCount로 업데이트
-            }
-        })
-        const commentCount = await Comment.count({where:{boardId:boardId}})
-        
-        const boardList = await Board.findOne({
-            attributes: ['boardId','boardTitle','boardViewCount'],
-            where: { boardId:boardId}
-        })
-        boardList.dataValues.commentCount = commentCount
-        //raw return값 : boardList.dataValues
-        //raw false retrun값 : boardList
-        console.log(boardList)
-        
-        //const 
-        // 현재의 값 = 현재의 값
-        // 현재의 값 + 1
-        // 그 값을 업데이트 한다
-
+        const { boardId }= req.params;
+        const boardList = await Board.findAll({
+            where: { boardId },
+            attributes: ['boardId', 'boardTitle', 'boardDesc'],
+        });
         return res.status(200).send({
             boardList,
             userId,
@@ -120,38 +95,28 @@ const postOrLike = async (req, res) => {
 const postMainView = async (req, res) => {
     try {
         const userId = res.locals.user;
-        const { boardId }= req.params; 
-        const postViewList = await Board.findOne({
-            where: { boardId:boardId }
-        }); //postViewList =  Board 테이블에서 boardId로 찾은 게시물
-        const postViewCount = postViewList.boardViewCount + 1; // 해당 게시물의 조회수 +1
-        await Board.update({
-            boardViewCount : postViewCount
-        },
-        {
-            where: {
-                // boardViewCount:postViewCount
-                boardId:boardId // boardId '로'!!!!! 찾은 게시물의 boardViewCOunt를 postViewCount로 업데이트
-            }
-        })
-        const commentCount = await Comment.count({where:{boardId:boardId}})
+        //쿼리방식으로 sort 진행할 것
+        let { sort }= req.query; 
+        console.log(sort);
+        const date = new Date();
+        const commentCount = await Comment.count({
+            where: Comment.commentId,
+        })  
+        const boardViewList = await Board.findOne({
+            attributes: ['boardId', 'boardTitle', 'boardViewCount'],
+            // include : [
+            //     {
+            //         model: Comment,
+            //         order: [[sequelize.literal('COUNT(Comment.commentId)'), "ASC"]]
+            //     },
+            // ],
+        });
+        boardViewList.dataValues.commentCount = commentCount,
+        boardViewList.dataValues.date = date,
+        //console.log(postViewList);
         
-        const boardList = await Board.findOne({
-            attributes: ['boardId','boardTitle','boardViewCount'],
-            where: { boardId:boardId}
-        })
-        boardList.dataValues.commentCount = commentCount
-        //raw return값 : boardList.dataValues
-        //raw false retrun값 : boardList
-        console.log(boardList)
-        
-        //const 
-        // 현재의 값 = 현재의 값
-        // 현재의 값 + 1
-        // 그 값을 업데이트 한다
-
-        return res.status(200).send({
-            boardList,
+        res.status(200).send({
+            boardViewList,
             userId,
         })
     } catch (error) {
