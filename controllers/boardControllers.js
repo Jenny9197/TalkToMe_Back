@@ -5,19 +5,19 @@ const { Board, BoardLike, User } = require("../models")
 const postCreate =  async (req, res) => {
     try {
         const userId = res.locals.user;
-        const { boardTitle, boardContent } = req.body;
+        const { boardTitle, boardDesc } = req.body;
         
         const date = new Date();
 
-        const postBox = await Board.create({
+        const board = await Board.create({
             boardTitle,
-            boardDesc:boardContent,
+            boardDesc:boardDesc,
             userId
         });
 
         message = "게시물 작성에 성공했습니다.";
         return res.status(200).send({
-            postBox,
+            board,
             message,
             date,
         })
