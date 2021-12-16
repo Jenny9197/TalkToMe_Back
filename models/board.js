@@ -27,11 +27,6 @@ module.exports = class Board extends Sequelize.Model {
           allowNull: false,
           defaultValue: 0,
         },
-        // updatedAt: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: false,
-        //   defaultValue: 0,
-        // }
       },
       {
         sequelize,
