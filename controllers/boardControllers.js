@@ -45,14 +45,10 @@ const postView = async (req, res) => {
     }
     const boardList = await Board.findAll({
       where: { boardId },
-      attributes: ['userId','boardId', 'boardTitle', 'boardDesc', 'boardViewCount', 'createdAt' ],
+      attributes: ['userId','boardId', 'boardTitle', 'boardDesc', 'boardViewCount', 'updatedAt' ],
     });
-    
-    
-   
     return res.status(200).send({
-      boardList,
-      //updatedAt,      
+      boardList,   
     });
   } catch (error) {
     console.log(error);
