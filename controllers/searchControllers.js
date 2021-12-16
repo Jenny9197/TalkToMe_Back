@@ -8,11 +8,12 @@ const homeSearchFunc = async (req, res) => {
       const keywords = keyword.split(' ')
       
       if (group == 'board') {
-        let query = `SELECT b.boardId, b.boardViewCount, b.boardTitle, b.boardDesc, b.createdAt
-        FROM boards AS b
-        WHERE MATCH (boardTitle,boardDesc) AGAINST ('${keywords}' IN NATURAL LANGUAGE MODE)
-        GROUP BY b.boardId
-        ORDER BY b.createdAt DESC`
+        let query = `SELECT s.boardId, s.boardTitle, s.boardViewCount, count(c.commentId) as commentCount, s.createdAt
+        FROM boards AS s
+        left OUTER JOIN comments AS c
+        ON s.boardId = c.boardId
+        GROUP BY s.boardId
+        ORDER BY s.createdAt DESC`
         const searchList = await sequelize.query(query, {
             type: Sequelize.QueryTypes.SELECT,
         });
