@@ -1,4 +1,4 @@
-const { Board, BoardLike, User, Comment } = require('../models');
+const { Board, BoardLike } = require('../models');
 const { sequelize } = require('../models');
 
 //고민 작성 페이지 - 게시글 작성
@@ -101,7 +101,7 @@ const postOrLike = async (req, res) => {
 const postMainView = async (req, res) => {
   try {
     const userId = res.locals.user;
-    //쿼리방식으로 sort 진행할 것
+    //로우쿼리방식으로 sort 로 진행하기
     let { sort } = req.query;
     console.log(sort);
     if (sort == 'viewCount') {

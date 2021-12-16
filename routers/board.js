@@ -23,7 +23,6 @@ router.get('/', boardController.postMainView);
 
 const commentRouter = require('./comment');
 
-
 router.use('/:boardId/comment', commentRouter);
 
 module.exports = router;
