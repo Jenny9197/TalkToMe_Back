@@ -36,6 +36,7 @@ const postView = async (req, res) => {
   try {
     const userId = res.locals.user;
     const { boardId } = req.params;
+    
     if (req.cookies['s' + boardId] == undefined) {
       res.cookie('s' + boardId, getUserIP(req), {
         maxAge: 720000, //12분 // maxAge: 1200000,
@@ -44,11 +45,14 @@ const postView = async (req, res) => {
     }
     const boardList = await Board.findAll({
       where: { boardId },
-      attributes: ['boardId', 'boardTitle', 'boardDesc'],
+      attributes: ['userId','boardId', 'boardTitle', 'boardDesc', 'boardViewCount', 'createdAt' ],
     });
+    
+    
+   
     return res.status(200).send({
       boardList,
-      userId,
+      //updatedAt,      
     });
   } catch (error) {
     console.log(error);
