@@ -76,13 +76,15 @@ const getSelect = async (req, res) => {
       await Select.increment({ selectViewCount: +1 }, { where: { selectId } });
     }
     
-    const query = `SELECT t1.selectId, t1.userId, selectState, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
+    const query = `SELECT t1.selectId, t1.nickname, t1.userId, selectState, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
     from
-    (SELECT s.selectId, s.userId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
+    (SELECT s.selectId, u.nickname, s.userId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
     FROM selects AS s
     left OUTER JOIN selectCounts AS c
     ON s.selectId = c.selectId
-    where s.selectId = ${selectId}
+    left OUTER JOIN users as u
+    ON s.userId = u.userId
+    where s.selectId =${selectId}
     GROUP BY s.selectId
     ORDER BY s.createdAt DESC) as t1
     left outer join
@@ -94,7 +96,7 @@ const getSelect = async (req, res) => {
       FROM selectCounts AS c
       left OUTER JOIN selects AS s
       ON c.selectId = s.selectId
-      WHERE c.selectId = ${selectId}
+      WHERE c.selectId =${selectId}
       GROUP BY c.optionNum
       ORDER BY s.createdAt DESC) as t2
       ON t1.selectId = t2.selectId`
@@ -112,6 +114,7 @@ const getSelect = async (req, res) => {
     });
   }
 };
+
 function getUserIP(req) {
   console.log(req.headers);
   const addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress;

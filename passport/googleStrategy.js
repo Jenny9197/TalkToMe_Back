@@ -26,7 +26,8 @@ module.exports = () => {
             console.log(profile.name);
             const newUser = await User.create({
               email: profile._json && profile._json.email,
-              nickname: profile.displayName,
+              nickname: '아무개'+getRandomInt(1,10000),
+              // nickname: profile.displayName,
               snsId: profile.id,
               provider: "google",
             });
@@ -41,3 +42,6 @@ module.exports = () => {
     )
   );
 };
+function getRandomInt(min, max) { //min ~ max 사이의 임의의 정수 반환
+  return Math.floor(Math.random() * (max - min)) + min;
+}

@@ -22,23 +22,36 @@ const { User } = require('../models');
 // };
 // module.exports = new UserFunc()
 
-
 class UserFunc {
   googleCallback = async (req, res) => {
     try {
       const user = req.user;
-      const userId = user.userId
-      const accessToken = Jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: "1d" });
-      const message = "로그인에 성공하였습니다.";
-      res.redirect(`http://localhost:3000/sociallogin/accessToken=${accessToken}`)
+      const userId = user.userId;
+      const accessToken = Jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '1d' });
+      const message = '로그인에 성공하였습니다.';
+      res.redirect(`http://localhost:3000/sociallogin/accessToken=${accessToken}`);
       // res.redirect(`https://bomborobom.shop/sociallogin/accessToken=${accessToken}`)
       // res.status(201).send({ message, token });
     } catch (error) {
       console.log(error);
-      const message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      const message = '알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.';
       res.status(500).send({ message });
     }
-  }
+  };
+  me = async (req, res) => {
+    try {
+      const userId = res.locals.user;
+      if (!userId){
+        res.status(401).json({ result:'fail', msg: '로그인이 필요합니다.'})
+      }
+      res.status(200).json({ result: 'success', userId: userId });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: '알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.' });
+    }
+    
+    
+  };
   // kakaoCallback = async (req, res) => {
   //   try {
   //     const user = req.user;
@@ -53,8 +66,8 @@ class UserFunc {
   //     res.status(500).send({ message });
   //   }
   // }
-};
-module.exports = new UserFunc()
+}
+module.exports = new UserFunc();
 
 // class UserFunc {
 //   googleCallback = async (req, res) => {
@@ -63,7 +76,7 @@ module.exports = new UserFunc()
 
 //       await User.create({ snsId: googleId, provider: 'google'});
 //       const token = Jwt.sign({ googleId }, process.env.SECRET_KEY, { expiresIn: "1d" });
-      
+
 //       res.status(201).send({ result: 'success', token });
 //     } catch (error) {
 //       console.log(error);
