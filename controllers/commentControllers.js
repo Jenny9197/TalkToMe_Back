@@ -60,6 +60,8 @@ const deleteComment = async (req, res) => {
         userId: userId,
       },
     });
+    console.log(boardId, commentId);
+    console.log(exComment);
     if (exComment) {
       await Comment.destroy({ where: { boardId: boardId, commentId: commentId, userId: userId } });
       res.status(200).json({ result: 'success', commentId });

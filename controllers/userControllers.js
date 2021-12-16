@@ -31,6 +31,7 @@ class UserFunc {
       const accessToken = Jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: "1d" });
       const message = "로그인에 성공하였습니다.";
       res.redirect(`http://localhost:3000/sociallogin/accessToken=${accessToken}`)
+      // res.redirect(`https://bomborobom.shop/sociallogin/accessToken=${accessToken}`)
       // res.status(201).send({ message, token });
     } catch (error) {
       console.log(error);

@@ -76,9 +76,9 @@ const getSelect = async (req, res) => {
       await Select.increment({ selectViewCount: +1 }, { where: { selectId } });
     }
     
-    const query = `SELECT t1.selectId, selectState, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
+    const query = `SELECT t1.selectId, t1.userId, selectState, t1.selectViewCount, t1.selectTitle, t1.selectDesc, t1.createdAt, t1.option1, t1.option2, t1.option3, t1.option4, t1.option5, t1.participationCount, json_arrayagg(JSON_OBJECT(IFNULL(t2.optionNum,"none"), t2.count))as optionCount
     from
-    (SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
+    (SELECT s.selectId, s.userId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, option1, option2, option3, option4, option5, count(c.selectId) as participationCount
     FROM selects AS s
     left OUTER JOIN selectCounts AS c
     ON s.selectId = c.selectId
@@ -99,11 +99,11 @@ const getSelect = async (req, res) => {
       ORDER BY s.createdAt DESC) as t2
       ON t1.selectId = t2.selectId`
 
-    const selectsList = await sequelize.query(query, {
+    const selectList = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
     });
-
-    res.status(200).json({ result: 'success', selectsList})  
+    selectList[0].logInUserId = userId
+    res.status(200).json({ result: 'success', selectList })  
   } catch (error) {
     console.error(error);
     res.status(400).json(() => {

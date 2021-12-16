@@ -12,6 +12,10 @@ router.post('/write', logInOnly, boardController.postCreate);
 router.get('/:boardId', boardController.postView);   
 // 고민상세페이지 - 게시글 좋아요, 취소
 router.post('/:boardId/like', logInOnly, boardController.postOrLike);
+// 고민 게시글 수정
+router.patch('/:boardId', logInOnly, boardController.editBoard);
+// 고민 게시글 삭제
+router.delete('/:boardId', logInOnly, boardController.deleteBoard);
 
 
 const commentRouter = require('./comment');
