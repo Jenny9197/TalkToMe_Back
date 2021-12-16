@@ -12,6 +12,7 @@ const homeSearchFunc = async (req, res) => {
         FROM boards AS s
         left OUTER JOIN comments AS c
         ON s.boardId = c.boardId
+        WHERE MATCH (boardTitle,boardDesc) AGAINST ('${keywords}' IN NATURAL LANGUAGE MODE)
         GROUP BY s.boardId
         ORDER BY s.createdAt DESC`
         const searchList = await sequelize.query(query, {
