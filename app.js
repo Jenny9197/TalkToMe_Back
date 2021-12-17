@@ -1,11 +1,14 @@
 const express = require('express'); // express를 쓴다
 const path = require('path');
-const session = require("express-session");
-const nunjucks = require("nunjucks");
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+const session = require('express-session');
+const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 const { sequelize } = require('./models');
-const passport = require("passport");
-const passportConfig = require("./passport");
+const passport = require('passport');
+const passportConfig = require('./passport');
 const requestIp = require('request-ip');
 
 dotenv.config();
@@ -28,12 +31,12 @@ let colsOptions = {
   credentials: true,
   // exposedHeaders: [Set - Cookie],
   methods: ['POST', 'PUT', 'GET', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
-  optionsSuccessStatus: 200, 
+  optionsSuccessStatus: 200,
 };
 app.use(cors(colsOptions));
 
-app.set("view engine", "html");
-nunjucks.configure("views", {
+app.set('view engine', 'html');
+nunjucks.configure('views', {
   express: app,
   watch: true,
 });
@@ -88,7 +91,15 @@ app.use([Router]);
 Router.get('/', (request, res) => {
   res.render('index');
 });
+const options = {
+  // letsencrypt로 받은 인증서 경로를 입력
+  ca: fs.readFileSync(process.env.SECRET_HTTPS_CA),
+  key: fs.readFileSync(process.env.SECRET_HTTPS_KEY),
+  cert: fs.readFileSync(process.env.SECRET_HTTPS_CERT),
+};
+http.createServer(app).listen(3000);
+https.createServer(options, app).listen(443);
 
-app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 포트에서 대기 중');
-});
+// app.listen(app.get('port'), () => {
+//   console.log(app.get('port'), '번 포트에서 대기 중');
+// });
