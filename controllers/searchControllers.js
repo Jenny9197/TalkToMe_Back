@@ -18,7 +18,8 @@ const homeSearchFunc = async (req, res) => {
         const searchList = await sequelize.query(query, {
             type: Sequelize.QueryTypes.SELECT,
         });
-        res.json({ result: 'success', searchList });
+        
+        res.json({ result: 'success', searchList, group: group });
         
       } else if (group == 'select') {
         let query = `SELECT s.selectId, s.selectViewCount, s.selectTitle, s.selectDesc, s.createdAt, s.endDate,count(c.selectId) as participationCount
@@ -32,7 +33,8 @@ const homeSearchFunc = async (req, res) => {
         const searchList = await sequelize.query(query, {
             type: Sequelize.QueryTypes.SELECT,
         });
-        res.json({ result: 'success', searchList });
+        
+        res.json({ result: 'success', searchList, group: group });
       } else {
         res.json({ result: 'fail', msg: '잘못된 요청입니다.'})
       }
