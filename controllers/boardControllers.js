@@ -105,7 +105,7 @@ const postMainView = async (req, res) => {
     let { sort } = req.query;
     console.log(sort);
     if (sort == 'viewCount') {
-      sort = 's.selectViewCount';
+      sort = 's.boardViewCount';
     } else if (sort == 'commentCount') {
       sort = 'count(c.commentId)';
     } else {
