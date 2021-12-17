@@ -14,6 +14,7 @@ module.exports = function logInOnly(req, res, next) {
         return res.status(401).send({ message: info.message });
       }
       res.locals.user = user.dataValues.userId;
+      res.locals.nick = user.dataValues.nickname;
       next();
     })(req, res, next);
   } catch (error) {

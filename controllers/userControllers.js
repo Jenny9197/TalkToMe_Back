@@ -41,10 +41,12 @@ class UserFunc {
   me = async (req, res) => {
     try {
       const userId = res.locals.user;
+      const nickname = res.locals.nick;
+      console.log(nickname)
       if (!userId){
         res.status(401).json({ result:'fail', msg: '로그인이 필요합니다.'})
       }
-      res.status(200).json({ result: 'success', userId: userId });
+      res.status(200).json({ result: 'success', userId: userId, nickname });
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: '알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.' });
