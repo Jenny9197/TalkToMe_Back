@@ -44,13 +44,13 @@ const postView = async (req, res) => {
       await Board.increment({ BoardViewCount: +1 }, { where: { boardId } });
     }
     //닉네임 추가
-    const query = `SELECT s.boardId, u.userId, u.nickname, s.boardTitle, s.boardViewCount, count(c.commentId) as commentCount, s.updatedAt
+    const query = `SELECT s.boardId, u.userId, u.nickname, s.boardTitle, s.boardDesc, s.boardViewCount, count(c.commentId) as commentCount, s.updatedAt
     FROM boards AS s
     left OUTER JOIN comments AS c
     ON s.boardId = c.boardId
       left OUTER JOIN users as u
       ON u.userId = s.userId
-      where s.boardId = ${boardId}
+      where s.boardId = s.boardId
     GROUP BY s.boardId
     ORDER BY s.createdAt DESC`
   
