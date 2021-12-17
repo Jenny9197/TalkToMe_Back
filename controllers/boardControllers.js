@@ -50,7 +50,7 @@ const postView = async (req, res) => {
     ON s.boardId = c.boardId
       left OUTER JOIN users as u
       ON u.userId = s.userId
-      where s.boardId = s.boardId
+      where s.boardId = ${boardId}
     GROUP BY s.boardId
     ORDER BY s.createdAt DESC`
   
