@@ -43,6 +43,7 @@ const postView = async (req, res) => {
       });
       await Board.increment({ BoardViewCount: +1 }, { where: { boardId } });
     }
+    //닉네임 추가
     const query = `SELECT s.boardId, u.userId, u.nickname, s.boardTitle, s.boardViewCount, count(c.commentId) as commentCount, s.updatedAt
     FROM boards AS s
     left OUTER JOIN comments AS c
@@ -52,10 +53,7 @@ const postView = async (req, res) => {
       where s.boardId = ${boardId}
     GROUP BY s.boardId
     ORDER BY s.createdAt DESC`
-    // const boardList = await Board.findAll({
-    //   where: { boardId },
-    //   attributes: ['userId','boardId', 'boardTitle', 'boardDesc', 'boardViewCount', 'updatedAt' ],
-    // });
+  
     const boardList = await sequelize.query(query, {
       type: sequelize.QueryTypes.SELECT,
     });
