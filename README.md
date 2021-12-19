@@ -9,7 +9,9 @@
 https://bomborobom.shop/
 
 ⚙️ 기술 스택 및 툴
-         
+
+<img alt="mysql" src ="https://img.shields.io/badge/mysql-4479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white"/><img alt="javascript" src ="https://img.shields.io/badge/javascript-F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=yellow"/><img alt="jsonwebtoken" src ="https://img.shields.io/badge/jsonwebtoken-000000.svg?&style=for-the-badge&logo=jsonwebtoken&logoColor=white"/><img alt="passport" src ="https://img.shields.io/badge/passport-34E27A.svg?&style=for-the-badge&logo=passport&logoColor=yellow"/><img alt="sequelize" src ="https://img.shields.io/badge/sequelize-52B0E7.svg?&style=for-the-badge&logo=sequelize&logoColor=green"/><img alt="kakao" src ="https://img.shields.io/badge/kakao-FFCD00.svg?&style=for-the-badge&logo=kakao&logoColor=black"/>
+
 
 🙋 팀원
 
