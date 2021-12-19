@@ -53,7 +53,9 @@ https://www.figma.com/file/raJhFgkXs5W5ecOCYr4eAi/26%EC%A1%B0-%EB%AF%B8%EB%8B%88
 5. 고민, 선택지 상세 페이지
 
 - 게시글 조회 기능 제공
+
 - 댓글 추가 수정 삭제 기능 제공
+
 - 선택지 투표 기능 제공
 
 6. 에러바운더리 처리
