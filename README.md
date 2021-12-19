@@ -13,12 +13,15 @@ https://bomborobom.shop/
 
 🙋 팀원
 Front-end(React): 박새봄, 신유빈, 조민갑
+
 Back-end(Node.js): 오정민, 홍성현
+
 🌎 API
 https://cloud-foam-41a.notion.site/TalkToMe-d8f79eca8b3c43139a1e088010f1a122
 
 ⏳ 팀 프로젝트 기간
 2021.12.8 ~ 2021.12.17(10일)
+
 📰 상세 페이지
 피그마 디자인 페이지
 
