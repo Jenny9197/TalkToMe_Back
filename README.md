@@ -12,6 +12,7 @@ https://bomborobom.shop/
          
 
 🙋 팀원
+
 Front-end(React): 박새봄, 신유빈, 조민갑
 
 Back-end(Node.js): 오정민, 홍성현
